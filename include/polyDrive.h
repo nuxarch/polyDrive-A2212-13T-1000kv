@@ -20,9 +20,14 @@ public:
     ~polyDrive();
 
     
-    BLDCMotor motor = BLDCMotor(7);
-    BLDCDriver3PWM driver = BLDCDriver3PWM(33, 25, 26);
-    DRV8301 gate_driver = DRV8301(23, 19, 18, 5, 27, 14);
+    // BLDCMotor motor = BLDCMotor(7);
+    // BLDCDriver3PWM driver = BLDCDriver3PWM(33, 25, 26);
+    // DRV8301 gate_driver = DRV8301(23, 19, 18, 5, 27, 14);
+
+
+    // BLDC motor & driver instance
+    BLDCMotor motor = BLDCMotor(7,2);
+    BLDCDriver3PWM driver = BLDCDriver3PWM(3, 9, 11, 7);
 
     Commander command = Commander(Serial);
 

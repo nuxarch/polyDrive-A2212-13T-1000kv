@@ -45,7 +45,7 @@ void polyDrive::initBoard(float supply_power)
     driver.voltage_power_supply = supply_power;
     driver.pwm_frequency = 15000;
     driver.init();
-    gate_driver.begin(PWM_INPUT_MODE_3PWM);
+    // gate_driver.begin(PWM_INPUT_MODE_3PWM);
     motor.linkDriver(&driver);
     // motor.linkSensor(&sensor);
 }
@@ -55,22 +55,22 @@ void polyDrive::limits(float _phase_resistance, float _vel_limit, float _voltage
     motor.velocity_limit = _vel_limit;          // 100.0;
     motor.voltage_limit = _voltage_limit;
     motor.current_limit = _current_limit; // 5;
-    motor.voltage_sensor_align = 1;
-    motor.velocity_index_search = 2;
+    motor.voltage_sensor_align = 2;
+    motor.velocity_index_search = 3;
 }
 
 void polyDrive::clear_error(char *cmd)
 {
-    gate_driver.begin(PWM_INPUT_MODE_3PWM);
+    // gate_driver.begin(PWM_INPUT_MODE_3PWM);
     delay(1000);
-    Serial.println("Is error " + String(gate_driver.get_PWM_Mode()));
-    Serial.println("error :" + String(gate_driver.read_fault()));
+    // Serial.println("Is error " + String(gate_driver.get_PWM_Mode()));
+    // Serial.println("error :" + String(gate_driver.read_fault()));
     Serial.println("resetting eeror");
     delay(1000);
-    gate_driver.reset();
+    // gate_driver.reset();
     delay(1000);
-    Serial.println("Is error " + String(gate_driver.get_PWM_Mode()));
-    Serial.println("error :" + String(gate_driver.read_fault()));
+    // Serial.println("Is error " + String(gate_driver.get_PWM_Mode()));
+    // Serial.println("error :" + String(gate_driver.read_fault()));
     delay(1000);
 }
 void polyDrive::vel_mode(char *cmd)
@@ -81,7 +81,7 @@ void polyDrive::pos_mode(char *cmd)
 {
     motor.controller = MotionControlType::angle;
 }
-
+/*
 void polyDrive::taskProtection(void *)
 {
     vTaskDelay(100 / portTICK_PERIOD_MS);
@@ -112,6 +112,7 @@ void polyDrive::taskSet()
         }
     }
 }
+*/
 void polyDrive::run()
 {
     motor.move(target_velocity);
