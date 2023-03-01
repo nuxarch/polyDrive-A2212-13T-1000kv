@@ -27,7 +27,7 @@ public:
 
     // BLDC motor & driver instance
     BLDCMotor motor = BLDCMotor(7,2);
-    BLDCDriver3PWM driver = BLDCDriver3PWM(26, 25, 39,33);
+    BLDCDriver3PWM driver = BLDCDriver3PWM(26, 33, 32,25);
 
     Commander command = Commander(Serial);
 
