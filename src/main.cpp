@@ -1,12 +1,6 @@
-// #include <Arduino_FreeRTOS.h>
-#include <Arduino.h>
 #include <SimpleFOC.h>
 #include "DRV8301.h"
 #include "polyDrive.h"
-
-// Encoder sensor = Encoder(34, 32, 2048);
-// void doA(void) { sensor.handleA(); }
-// void doB(void) { sensor.handleB(); }
 
 MagneticSensorI2C sensor = MagneticSensorI2C(AS5600_I2C);
 
@@ -57,7 +51,17 @@ void setup()
     // myboard.motor.controller = MotionControlType::velocity;
     myboard.motor.controller = MotionControlType::angle;
     myboard.motor.init();
-    myboard.motor.initFOC();
+    int i = 0;
+    while (myboard.motor.initFOC() != 1){
+        delay(1000);
+        Serial.println("trying "+String(++i));
+        if (i >=3)
+        {
+            Serial.println("please restart");
+            while(1);
+        }
+        
+    }
     myboard.command.add('T', doTarget, "target velocity");
     myboard.command.add('M', onMotor, "on motor command");
     // myboard.command.add('S', setControl, "manual test point");
