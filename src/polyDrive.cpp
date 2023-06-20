@@ -81,7 +81,7 @@ void polyDrive::pos_mode(char *cmd)
 {
     motor.controller = MotionControlType::angle;
 }
-/*
+
 void polyDrive::taskProtection(void *)
 {
     vTaskDelay(100 / portTICK_PERIOD_MS);
@@ -110,9 +110,29 @@ void polyDrive::taskSet()
             vTaskDelay(delay_test / portTICK_PERIOD_MS);
             target_velocity = 0;
         }
+        if (motor.controller == MotionControlType::velocity)
+        {
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 10;
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 20;
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 30;
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 40;
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 30;
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 20;
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 10;
+            vTaskDelay(delay_test / portTICK_PERIOD_MS);
+            target_velocity = 0;
+
+        }
     }
 }
-*/
+
 void polyDrive::run()
 {
     motor.move(target_velocity);
