@@ -49,6 +49,14 @@ void polyDrive::initBoard(float supply_power)
     motor.linkDriver(&driver);
     // motor.linkSensor(&sensor);
 }
+void polyDrive::initDRV8313(){
+    pinMode(FAULT_PIN, INPUT_PULLUP);
+    pinMode(RESET_PIN,OUTPUT);
+    pinMode(SLEEP_PIN, OUTPUT);
+    digitalWrite(RESET_PIN,HIGH);
+    digitalWrite(SLEEP_PIN,HIGH);
+}
+
 void polyDrive::limits(float _phase_resistance, float _vel_limit, float _voltage_limit, float _current_limit)
 {
     motor.phase_resistance = _phase_resistance; // 0.63
@@ -82,7 +90,7 @@ void polyDrive::pos_mode(char *cmd)
     motor.controller = MotionControlType::angle;
 }
 
-void polyDrive::taskProtection(void *)
+void polyDrive::taskProtection()
 {
     vTaskDelay(100 / portTICK_PERIOD_MS);
     Serial.println("protection task started");
@@ -90,7 +98,8 @@ void polyDrive::taskProtection(void *)
     {
         board_temp = map(analogRead(TEMPERATURE_PIN), 0, 4035, 0, 100);
         INFO += "T[" + String(board_temp) + "]";
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        Serial.println(INFO);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
     }
 }
 void polyDrive::taskSet()
