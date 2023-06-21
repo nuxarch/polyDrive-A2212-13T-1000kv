@@ -97,8 +97,8 @@ void polyDrive::taskProtection()
     for (;;)
     {
         board_temp = map(analogRead(TEMPERATURE_PIN), 0, 4035, 0, 100);
-        INFO += "T[" + String(board_temp) + "]";
-        Serial.println(INFO);
+        String  temp= "T[" + String(board_temp) + "]\n\r";
+        Serial.print(temp);
         vTaskDelay(200 / portTICK_PERIOD_MS);
     }
 }

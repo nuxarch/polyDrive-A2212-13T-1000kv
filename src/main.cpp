@@ -50,13 +50,13 @@ void setup()
     // initialise magnetic sensor hardware
     sensor.init();
 
-    myboard.limits(1, 50, 1, 2);
+    myboard.limits(0.5, 50, 1, 2);
     myboard.motor.linkSensor(&sensor);
     // for A2212
     myboard.vel_PID(0.1, 0.01, 0.001, 200, 5, 0.3);
 
     myboard.angle_PID(16,0,0,5,25,0.01);
-    myboard.motor.useMonitoring(Serial);
+    // myboard.motor.useMonitoring(Serial);
 
     // myboard.motor.controller = MotionControlType::velocity_openloop;
     // myboard.motor.controller = MotionControlType::angle_openloop;
