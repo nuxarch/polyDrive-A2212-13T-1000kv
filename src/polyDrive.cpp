@@ -94,12 +94,17 @@ void polyDrive::taskProtection()
 {
     vTaskDelay(100 / portTICK_PERIOD_MS);
     Serial.println("protection task started");
+    String  temp;
     for (;;)
     {
         board_temp = map(analogRead(TEMPERATURE_PIN), 0, 4035, 0, 100);
-        String  temp= "T[" + String(board_temp) + "]\n\r";
-        Serial.print(temp);
-        vTaskDelay(200 / portTICK_PERIOD_MS);
+        if ((board_temp > 26) || (digitalRead(FAULT_PIN) == LOW)){
+            driver.disable();
+            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            temp= "nFault / OverTemp : [" + String(board_temp) + "]\n\r";
+            Serial.print(temp);
+        }
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
     }
 }
 void polyDrive::taskSet()

@@ -39,7 +39,7 @@ void setup()
 {
     Serial.begin(115200);
     
-    myboard.initBoard(36);
+    myboard.initBoard(24);
     myboard.initDRV8313();
     // sensor.quadrature = Quadrature::OFF;
     // sensor.pullup = Pullup::USE_EXTERN;
@@ -50,22 +50,22 @@ void setup()
     // initialise magnetic sensor hardware
     sensor.init();
 
-    myboard.limits(0.5, 50, 1, 2);
+    myboard.limits(2, 5, 12, 2);
     myboard.motor.linkSensor(&sensor);
     // for A2212
-    myboard.vel_PID(0.1, 0.01, 0.001, 200, 5, 0.3);
+    myboard.vel_PID(0.1, 0.01, 0.001, 100, 20, 0.0);
 
-    myboard.angle_PID(16,0,0,5,25,0.01);
-    // myboard.motor.useMonitoring(Serial);
+    myboard.angle_PID(15,0,0,50,5,0.01);
+    myboard.motor.useMonitoring(Serial);
 
     // myboard.motor.controller = MotionControlType::velocity_openloop;
     // myboard.motor.controller = MotionControlType::angle_openloop;
     // myboard.motor.controller = MotionControlType::torque;
-    myboard.motor.controller = MotionControlType::velocity;
-    // myboard.motor.controller = MotionControlType::angle;
+    // myboard.motor.controller = MotionControlType::velocity;
+    myboard.motor.controller = MotionControlType::angle;
     myboard.motor.init();
     int i = 0;
-    while (myboard.motor.initFOC() != 1){
+    while (myboard.motor.initFOC(5.66,CCW) != 1){
         delay(1000);
         Serial.println("trying "+String(++i));
         digitalWrite(RESET_PIN, LOW);delay(500);
@@ -83,6 +83,8 @@ void setup()
     myboard.command.add('S', setControl, "manual test point");
     myboard.command.add('s', setControlOff, "manual test point off");
     myboard.command.add('r', readTemp, "monitor temperature safety");
+    xTaskCreate(taskReadTemp, "task read temp", 4000, NULL, 1, &taskProtectionHandle);
+    
 }
 
 void loop()

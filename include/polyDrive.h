@@ -41,7 +41,7 @@ public:
     float board_temp;
     String INFO;
     float target_velocity;
-    int delay_test = 3000;
+    int delay_test = 1000;
 
     // void doA(); // { sensor.handleA(); }
     // void doB(); // { sensor.handleB(); }
