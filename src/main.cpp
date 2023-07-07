@@ -2,7 +2,8 @@
 #include "DRV8301.h"
 #include "polyDrive.h"
 
-MagneticSensorI2C sensor = MagneticSensorI2C(AS5600_I2C);
+// MagneticSensorI2C sensor = MagneticSensorI2C(AS5600_I2C);
+MagneticSensorSPI sensor = MagneticSensorSPI(AS5047_SPI, 5);
 
 xTaskHandle taskThrottleHandle;
 xTaskHandle taskTestSetPointHandle;
@@ -53,7 +54,7 @@ void setup()
     myboard.limits(2, 5, 12, 2);
     myboard.motor.linkSensor(&sensor);
     // for A2212
-    myboard.vel_PID(0.1, 0.01, 0.001, 100, 20, 0.0);
+    myboard.vel_PID(0.1, 0.01, 0.001, 100, 20, 1);
 
     myboard.angle_PID(15,0,0,50,5,0.01);
     myboard.motor.useMonitoring(Serial);
@@ -65,7 +66,8 @@ void setup()
     myboard.motor.controller = MotionControlType::angle;
     myboard.motor.init();
     int i = 0;
-    while (myboard.motor.initFOC(5.66,CCW) != 1){
+    // while (myboard.motor.initFOC(5.66,CCW) != 1){
+    while (myboard.motor.initFOC() != 1){
         delay(1000);
         Serial.println("trying "+String(++i));
         digitalWrite(RESET_PIN, LOW);delay(500);

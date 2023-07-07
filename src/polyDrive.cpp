@@ -98,6 +98,8 @@ void polyDrive::taskProtection()
     for (;;)
     {
         board_temp = map(analogRead(TEMPERATURE_PIN), 0, 4035, 0, 100);
+        temp= "nFault / OverTemp : [" + String(board_temp) + "]\n\r";
+        Serial.print(temp);
         if ((board_temp > 26) || (digitalRead(FAULT_PIN) == LOW)){
             driver.disable();
             vTaskDelay(1000 / portTICK_PERIOD_MS);

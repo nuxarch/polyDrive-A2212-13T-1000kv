@@ -31,7 +31,10 @@ public:
 
 
     // BLDC motor & driver instance
-    BLDCMotor motor = BLDCMotor(7,0.1);
+    // motor A2212
+    // BLDCMotor motor = BLDCMotor(7,0.1);
+    // motor 2208-ikhwan
+    BLDCMotor motor = BLDCMotor(7,2);
     // BLDCDriver3PWM driver = BLDCDriver3PWM(26, 33, 32,25);
     BLDCDriver3PWM driver = BLDCDriver3PWM(25, 26, 27,13);
 
@@ -41,7 +44,7 @@ public:
     float board_temp;
     String INFO;
     float target_velocity;
-    int delay_test = 1000;
+    int delay_test = 4000;
 
     // void doA(); // { sensor.handleA(); }
     // void doB(); // { sensor.handleB(); }
